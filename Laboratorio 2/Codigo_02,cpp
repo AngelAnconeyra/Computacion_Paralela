@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <chrono>
+
+using namespace std;
+
+int tamanho = 400;
+
+void llenarMatriz(vector<vector<int>> &matriz){
+    for(int i=0;i<tamanho;++i){
+        for(int j=0;j<tamanho;++j){
+            matriz[i][j] = j+1;
+        }
+    }
+}
+
+vector<vector<int>> multiplicarMatrices(vector<vector<int>>& A, vector<vector<int>>& B) {
+    vector<vector<int>> resultado(tamanho, vector<int>(tamanho, 0));
+
+    int num_bloques = tamanho / 1;
+    for (int i = 0; i < num_bloques; ++i) {
+        for (int j = 0; j < num_bloques; ++j) {
+            for (int k = 0; k < num_bloques; ++k) {
+                for (int ii = 0; ii < 1; ++ii) {
+                    for (int jj = 0; jj < 1; ++jj) {
+                        for (int kk = 0; kk < 1; ++kk) {
+                            resultado[i * 1 + ii][j * 1 + jj] += A[i * 1 + ii][k * 1 + kk] * B[k * 1 + kk][j * 1 + jj];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return resultado;
+}
+
+int main() {
+    vector<vector<int>> matrizA (tamanho,vector<int>(tamanho));
+    vector<vector<int>> matrizB (tamanho,vector<int>(tamanho));
+    llenarMatriz(matrizA);
+    llenarMatriz(matrizB);
+    auto inicio = chrono::high_resolution_clock::now();
+    vector<vector<int>> resultado = multiplicarMatrices(matrizA, matrizB);
+    auto fin = chrono::high_resolution_clock::now();
+    chrono::duration<double> duracion = fin - inicio;
+    cout<<"Tamanho "<<tamanho<<": "<<duracion.count()<<endl;
+
+    return 0;
+}
